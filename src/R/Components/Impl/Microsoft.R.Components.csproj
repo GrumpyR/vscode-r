@@ -34,7 +34,6 @@
   </ItemGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
   <Import Project="$(SourceDirectory)R.Build.Version.targets" />
-  <Import Project="$(SourceDirectory)R.Build.Sign.targets" />
   <ItemGroup>
     <Dockerfile Include="Containers\Implementation\Dockerfile" />
   </ItemGroup>

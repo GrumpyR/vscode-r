@@ -98,7 +98,6 @@
   </ItemGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
   <Import Project="$(SourceDirectory)R.Build.Version.targets" />
-  <Import Project="$(SourceDirectory)R.Build.Loc.targets" />
   <ItemGroup>
     <RtvsPackageFiles Include="rtvs\**\*" />
   </ItemGroup>
