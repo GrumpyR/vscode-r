@@ -201,21 +201,13 @@ namespace Microsoft.R.Host.Client.Host {
                 $" --R:interpreters:{InterpreterId}:name \"{Name}\"" +
                 $" --R:interpreters:{InterpreterId}:basePath \"{_rHome.TrimTrailingSlash()}\"";
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-                psi = new ProcessStartInfo {
-                    FileName = rhostBrokerExecutable,
-                    UseShellExecute = false,
-                    Arguments = baseArguments
-                };
-            } else {
-                psi = new ProcessStartInfo {
-                    FileName = "dotnet",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    Arguments = $"{rhostBrokerExecutable} {baseArguments}"
-                };
-            }
+            psi = new ProcessStartInfo {
+                FileName = "dotnet",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                Arguments = $"{rhostBrokerExecutable} {baseArguments}"
+            };
             return psi;
         }
     }

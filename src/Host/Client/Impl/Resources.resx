@@ -118,8 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Error_BinaryMissing15" xml:space="preserve">
-    <value>{0} is missing from the installation directory.
-Please reinstall Data Science workload or repair the Visual Studio installation.</value>
+    <value>{0} is missing from the installation directory. Please reinstall the extension.</value>
   </data>
   <data name="RHostDisconnected" xml:space="preserve">
     <value>Interactive Window is disconnected from R session.</value>

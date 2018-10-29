@@ -12,7 +12,7 @@ export async function getR(r: IREngine): Promise<string> {
     const interpreterPath = await r.getInterpreterPath();
     if (interpreterPath === undefined || interpreterPath === null) {
         if (await vscode.window.showErrorMessage("Unable to find R interpreter. Would you like to install R now?",
-                                                 "Yes", "No") === "Yes") {
+            "Yes", "No") === "Yes") {
             InstallR();
             vscode.window.showWarningMessage("Please restart VS Code after R installation is complete.");
         }
@@ -24,7 +24,7 @@ export async function getR(r: IREngine): Promise<string> {
 export async function checkDotNet(): Promise<boolean> {
     if (!IsDotNetInstalled()) {
         if (await vscode.window.showErrorMessage("R Tools require .NET Core Runtime. Would you like to install it now?",
-                                                 "Yes", "No") === "Yes") {
+            "Yes", "No") === "Yes") {
             InstallDotNet();
             vscode.window.showWarningMessage("Please restart VS Code after .NET Runtime installation is complete.");
         }
@@ -34,22 +34,15 @@ export async function checkDotNet(): Promise<boolean> {
 }
 
 function IsDotNetInstalled() {
-    const versions = ["1.1.2", "1.1.4", "2.0.0"];
-    let prefix: string;
+    let dir: string;
 
     if (os.IsWindows()) {
         const drive = getenv("SystemDrive");
-        prefix = drive + "\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\";
+        dir = drive + "\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App";
     } else {
-        prefix = "/usr/local/share/dotnet/shared/Microsoft.NETCore.App/";
+        dir = "/usr/local/share/dotnet/shared/Microsoft.NETCore.App";
     }
-
-    for (const version of versions) {
-        if (fs.existsSync(prefix + version)) {
-            return true;
-        }
-    }
-    return false;
+    return fs.existsSync(dir);
 }
 
 function InstallDotNet() {

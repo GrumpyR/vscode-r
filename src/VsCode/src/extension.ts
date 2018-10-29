@@ -19,7 +19,7 @@ let commands: Commands;
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
-    if (!deps.checkDotNet()) {
+    if (!await deps.checkDotNet()) {
         return;
     }
 
