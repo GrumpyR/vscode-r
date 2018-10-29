@@ -1,6 +1,6 @@
 ﻿<Project>
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <AssemblyName>Microsoft.UnitTests.Core</AssemblyName>
     <RootNamespace>Microsoft.UnitTests.Core</RootNamespace>
   </PropertyGroup>

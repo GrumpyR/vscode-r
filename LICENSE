@@ -1,6 +1,12 @@
 MIT License
 
-Copyright (c) 2018 GrumpyR
+Copyright (c) 2018 Microsoft with additions from GrumpyR.
+
+This code is based on Microsoft R Tools for Visual Studio aka RTVS.
+Please visit https://github.com/microsoft/rtvs for more information.
+Prototype extension to VS Code can be found at RTVS repo. This project
+is a personal efforst and although it builds upon RTVS, it is not
+supported by Microsoft.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
