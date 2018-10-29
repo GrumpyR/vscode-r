@@ -3,6 +3,7 @@
 // Based on https://github.com/CXuesong/LanguageServer.NET
 
 using System.Threading;
+using JsonRpc.DynamicProxy.Client;
 using JsonRpc.Standard.Client;
 using JsonRpc.Standard.Contracts;
 using LanguageServer.VsCode.Contracts.Client;

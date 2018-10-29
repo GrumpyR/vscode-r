@@ -1,20 +1,12 @@
-﻿<Project>
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Microsoft.R.Containers.Linux</AssemblyName>
   </PropertyGroup>
-  <Import Project="..\..\..\R.Settings.NetCore.props" />
-  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
-  <Import Project="..\..\..\R.Settings.props" />
   <PropertyGroup>
     <DebugType>portable</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(SourceDirectory)GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
-    <Compile Include="$(SourceDirectory)AssemblyVersionInfo.cs" Link="Properties\AssemblyVersionInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="MicroBuild.Core" Version="0.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
   <ItemGroup>
@@ -37,6 +29,4 @@
       <CustomToolNamespace>Microsoft.R.Containers</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
-  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
-  <Import Project="$(SourceDirectory)R.Build.Version.targets" />
 </Project>

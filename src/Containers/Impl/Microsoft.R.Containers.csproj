@@ -1,25 +1,14 @@
-﻿<Project>
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Microsoft.R.Containers</AssemblyName>
   </PropertyGroup>
-  <Import Project="..\..\R.Settings.NetCore.props" />
-  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
-  <Import Project="..\..\R.Settings.props" />
   <ItemGroup>
-    <Compile Include="$(SourceDirectory)GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
-    <Compile Include="$(SourceDirectory)AssemblyVersionInfo.cs" Link="Properties\AssemblyVersionInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="MicroBuild.Core" Version="0.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
   <ItemGroup Condition=" '$(Desktop)' == 'true' ">
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Common\Core\Impl\Microsoft.R.Common.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources.Designer.cs">
@@ -34,6 +23,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
-  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
-  <Import Project="$(SourceDirectory)R.Build.Version.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Core\Impl\Microsoft.R.Common.Core.csproj" />
+  </ItemGroup>
 </Project>

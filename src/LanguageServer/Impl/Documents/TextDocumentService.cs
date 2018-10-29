@@ -17,7 +17,6 @@ using Microsoft.R.LanguageServer.Threading;
 using TextEdit = LanguageServer.VsCode.Contracts.TextEdit;
 
 namespace Microsoft.R.LanguageServer.Documents {
-    [JsonRpcScope(MethodPrefix = "textDocument/")]
     public sealed class TextDocumentService : LanguageServiceBase {
         /// <remarks>
         /// In VS Code editor operations such as formatting are not supposed
@@ -40,16 +39,16 @@ namespace Microsoft.R.LanguageServer.Documents {
         private IDocumentCollection Documents => _documents ?? (_documents = Services.GetService<IDocumentCollection>());
         private IIdleTimeNotification IdleTimeNotification => _idleTimeNotification ?? (_idleTimeNotification = Services.GetService<IIdleTimeNotification>());
 
-        [JsonRpcMethod]
-        public Task<Hover> Hover(TextDocumentIdentifier textDocument, Position position, CancellationToken ct) {
+        [JsonRpcMethod("textDocument/hover")]
+        public Task<Hover> hover(TextDocumentIdentifier textDocument, Position position, CancellationToken ct) {
             using (new DebugMeasureTime("textDocument/hover")) {
                 var doc = Documents.GetDocument(textDocument.Uri);
                 return doc != null ? doc.GetHoverAsync(position, ct) : Task.FromResult((Hover)null);
             }
         }
 
-        [JsonRpcMethod]
-        public Task<SignatureHelp> SignatureHelp(TextDocumentIdentifier textDocument, Position position) {
+        [JsonRpcMethod("textDocument/signatureHelp")]
+        public Task<SignatureHelp> signatureHelp(TextDocumentIdentifier textDocument, Position position) {
             using (new DebugMeasureTime("textDocument/signatureHelp")) {
                 return MainThreadPriority.SendAsync(async () => {
                     var doc = Documents.GetDocument(textDocument.Uri);
@@ -58,13 +57,13 @@ namespace Microsoft.R.LanguageServer.Documents {
             }
         }
 
-        [JsonRpcMethod(IsNotification = true)]
+        [JsonRpcMethod("textDocument/didOpen", IsNotification = true)]
         public void didOpen(TextDocumentItem textDocument) {
             IdleTimeNotification.NotifyUserActivity();
             MainThreadPriority.Post(() => Documents.AddDocument(textDocument.Text, textDocument.Uri), ThreadPostPriority.Normal);
         }
 
-        [JsonRpcMethod(IsNotification = true)]
+        [JsonRpcMethod("textDocument/didChange", IsNotification = true)]
         public async Task didChange(TextDocumentIdentifier textDocument, ICollection<TextDocumentContentChangeEvent> contentChanges) {
             if (_ignoreNextChange) {
                 _ignoreNextChange = false;
@@ -84,14 +83,14 @@ namespace Microsoft.R.LanguageServer.Documents {
             }
         }
 
-        [JsonRpcMethod(IsNotification = true)]
+        [JsonRpcMethod("textDocument/willSave", IsNotification = true)]
         public void willSave(TextDocumentIdentifier textDocument, TextDocumentSaveReason reason) { }
 
-        [JsonRpcMethod(IsNotification = true)]
+        [JsonRpcMethod("textDocument/didClose", IsNotification = true)]
         public void didClose(TextDocumentIdentifier textDocument)
             => MainThreadPriority.Post(() => Documents.RemoveDocument(textDocument.Uri), ThreadPostPriority.Normal);
 
-        [JsonRpcMethod]
+        [JsonRpcMethod("textDocument/completion")]
         public Task<CompletionList> completion(TextDocumentIdentifier textDocument, Position position) {
             using (new DebugMeasureTime("textDocument/completion")) {
                 return MainThreadPriority.SendAsync(() => {
@@ -101,7 +100,7 @@ namespace Microsoft.R.LanguageServer.Documents {
             }
         }
 
-        [JsonRpcMethod]
+        [JsonRpcMethod("textDocument/formatting")]
         public Task<TextEdit[]> formatting(TextDocumentIdentifier textDocument, FormattingOptions options) {
             using (new DebugMeasureTime("textDocument/formatting")) {
                 return MainThreadPriority.SendAsync(async () => {
@@ -113,7 +112,7 @@ namespace Microsoft.R.LanguageServer.Documents {
             }
         }
 
-        [JsonRpcMethod]
+        [JsonRpcMethod("textDocument/rangeFormatting")]
         public Task<TextEdit[]> rangeFormatting(TextDocumentIdentifier textDocument, Range range, FormattingOptions options) {
             using (new DebugMeasureTime("textDocument/rangeFormatting")) {
                 return MainThreadPriority.SendAsync(async () => {
@@ -125,7 +124,7 @@ namespace Microsoft.R.LanguageServer.Documents {
             }
         }
 
-        [JsonRpcMethod]
+        [JsonRpcMethod("textDocument/onTypeFormatting")]
         public Task<TextEdit[]> onTypeFormatting(TextDocumentIdentifier textDocument, Position position, string ch, FormattingOptions options) {
             using (new DebugMeasureTime("textDocument/onTypeFormatting")) {
                 return MainThreadPriority.SendAsync(async () => {
@@ -137,7 +136,7 @@ namespace Microsoft.R.LanguageServer.Documents {
             }
         }
 
-        [JsonRpcMethod]
+        [JsonRpcMethod("textDocument/documentSymbol")]
         public SymbolInformation[] documentSymbol(TextDocumentIdentifier textDocument, FormattingOptions options) {
             using (new DebugMeasureTime("textDocument/documentSymbol")) {
                 var doc = Documents.GetDocument(textDocument.Uri);

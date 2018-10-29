@@ -1,20 +1,13 @@
-﻿<Project>
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <AssemblyName>Microsoft.R.Host.Broker.Unix</AssemblyName>
     <RootNamespace>Microsoft.R.Host.Broker</RootNamespace>
   </PropertyGroup>
-  <Import Project="..\..\..\..\R.Settings.NetCore.props" />
-  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
-  <Import Project="..\..\..\..\R.Settings.props" />
   <PropertyGroup>
     <DebugType>portable</DebugType>
   </PropertyGroup>
-   <ItemGroup>
-    <Compile Include="$(SourceDirectory)GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
-    <Compile Include="$(SourceDirectory)AssemblyVersionInfo.cs" Link="Properties\AssemblyVersionInfo.cs" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(SourceDirectory)Common\Core\Impl\Microsoft.R.Common.Core.csproj" />
     <ProjectReference Include="$(SourceDirectory)Host\Broker\Impl\Microsoft.R.Host.Broker.csproj" />
@@ -49,6 +42,4 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
-  <Import Project="$(SourceDirectory)R.Build.Version.targets" />
 </Project>

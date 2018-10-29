@@ -4,10 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using LanguageServer.VsCode.Contracts;
 using Microsoft.Common.Core.Services;
-using Microsoft.Common.Core.Threading;
 using Microsoft.Languages.Core;
 using Microsoft.Languages.Editor.Completions;
 using Microsoft.R.Core.Tokens;
@@ -15,7 +13,8 @@ using Microsoft.R.Editor.Completions.Engine;
 using Microsoft.R.Editor.Document;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.R.LanguageServer.Completions {
+namespace Microsoft.R.LanguageServer.Completions
+{
     internal sealed class CompletionManager {
         private readonly IServiceContainer _services;
         private readonly RCompletionEngine _completionEngine;
@@ -54,8 +53,8 @@ namespace Microsoft.R.LanguageServer.Completions {
             }
 
             var sorted = new List<ICompletionEntry>();
-            sorted.AddRange(completions.Where(c => c.DisplayText.EndsWith("=")));
-            sorted.AddRange(completions.Where(c => char.IsLetter(c.DisplayText[0]) && !c.DisplayText.EndsWith("=")));
+            sorted.AddRange(completions.Where(c => c.DisplayText.EndsWith("=", StringComparison.Ordinal)));
+            sorted.AddRange(completions.Where(c => char.IsLetter(c.DisplayText[0]) && !c.DisplayText.EndsWith("=", StringComparison.Ordinal)));
 
             var items = sorted
                 .Select(c => new CompletionItem {
@@ -66,7 +65,7 @@ namespace Microsoft.R.LanguageServer.Completions {
                     Data = c.Data is string ? JToken.FromObject((string)c.Data) : null
                 }).ToList();
 
-            return new CompletionList(false, items);
+            return new CompletionList(items);
         }
 
         private static string GetFilterPrefix(IRIntellisenseContext context) {
