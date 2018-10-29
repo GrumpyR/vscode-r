@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using LanguageServer.VsCode.Contracts;
 using Microsoft.Languages.Core.Text;
 using Microsoft.Languages.Editor.Text;
 
@@ -18,36 +17,36 @@ namespace Microsoft.R.LanguageServer.Extensions {
 
         public static Range ToLineRange(this IEditorBuffer editorBuffer, int start, int end)
             => new Range {
-                Start = editorBuffer.CurrentSnapshot.ToLinePosition(start),
-                End = editorBuffer.CurrentSnapshot.ToLinePosition(end)
+                start = editorBuffer.CurrentSnapshot.ToLinePosition(start),
+                end = editorBuffer.CurrentSnapshot.ToLinePosition(end)
             };
 
         public static Range ToLineRange(this ITextRange textRange, IEditorBuffer editorBuffer)
             => new Range {
-                Start = editorBuffer.CurrentSnapshot.ToLinePosition(textRange.Start),
-                End = editorBuffer.CurrentSnapshot.ToLinePosition(textRange.End)
+                start = editorBuffer.CurrentSnapshot.ToLinePosition(textRange.Start),
+                end = editorBuffer.CurrentSnapshot.ToLinePosition(textRange.End)
             };
 
         public static Range ToLineRange(this IEditorBufferSnapshot snapshot, int start, int end)
-            => new Range { Start = snapshot.ToLinePosition(start), End = snapshot.ToLinePosition(end) };
+            => new Range { start = snapshot.ToLinePosition(start), end = snapshot.ToLinePosition(end) };
 
         public static Range ToLineRange(this ITextRange textRange, IEditorBufferSnapshot snapshot)
-            => new Range { Start = snapshot.ToLinePosition(textRange.Start), End = snapshot.ToLinePosition(textRange.End) };
+            => new Range { start = snapshot.ToLinePosition(textRange.Start), end = snapshot.ToLinePosition(textRange.End) };
 
         public static Position ToLinePosition(this IEditorBufferSnapshot snapshot, int position) {
             var line = snapshot.GetLineFromPosition(position);
-            return new Position { Line = line.LineNumber, Character = position - line.Start };
+            return new Position { line = line.LineNumber, character = position - line.Start };
         }
         public static int ToStreamPosition(this Position position, IEditorBufferSnapshot snapshot)
-            => snapshot.ToStreamPosition(position.Line, position.Character);
+            => snapshot.ToStreamPosition(position.line, position.character);
 
         public static int ToStreamPosition(this IEditorBufferSnapshot snapshot, int lineNumber, int charNumber) {
             var line = snapshot.GetLineFromLineNumber(lineNumber);
             return line?.Start + charNumber ?? 0;
         }
         public static ITextRange ToTextRange(this Range range, IEditorBufferSnapshot snapshot) {
-            var start = range.Start.ToStreamPosition(snapshot);
-            var end = range.End.ToStreamPosition(snapshot);
+            var start = range.start.ToStreamPosition(snapshot);
+            var end = range.end.ToStreamPosition(snapshot);
             return TextRange.FromBounds(start, end);
         }
     }

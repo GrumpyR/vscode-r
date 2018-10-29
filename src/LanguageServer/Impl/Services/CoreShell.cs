@@ -8,16 +8,14 @@ using Microsoft.Common.Core.Shell;
 
 namespace Microsoft.R.LanguageServer.Services {
     internal sealed class CoreShell : ICoreShell, IDisposable {
-        private static CoreShell _instance;
-
-        public static CoreShell Current => _instance;
+        public static CoreShell Current { get; private set; }
         public IServiceManager ServiceManager { get; } = new ServiceContainer();
         public IServiceContainer Services => ServiceManager;
 
         public static IDisposable Create() {
-            Check.InvalidOperation(() => _instance == null);
-            _instance = new CoreShell();
-            return _instance;
+            Check.InvalidOperation(() => Current == null);
+            Current = new CoreShell();
+            return Current;
         }
 
         private CoreShell() {

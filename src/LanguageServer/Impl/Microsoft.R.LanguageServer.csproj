@@ -10,13 +10,11 @@
     <OutputFileExtension>dll</OutputFileExtension>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CXuesong.JsonRpc.Standard" Version="0.4.1" />
-    <PackageReference Include="CXuesong.JsonRpc.Streams" Version="0.4.2" />
-    <PackageReference Include="CXuesong.LanguageServer.VsCode" Version="0.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
     <PackageReference Include="System.Diagnostics.TraceSource" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
+    <PackageReference Include="StreamJsonRpc" Version="1.4.128" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Languages\Core\Impl\Microsoft.Languages.Core.csproj" />
@@ -31,5 +29,14 @@
     <ProjectReference Include="..\..\R\Platform\Impl\Microsoft.R.Platform.csproj" />
     <ProjectReference Include="..\..\Unix\R\Platform\Impl\Microsoft.R.Platform.Unix.csproj" />
     <ProjectReference Include="..\..\Host\Protocol\Impl\Microsoft.R.Host.Protocol.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Protocol\" />
+    <Folder Include="Definitions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Client\IVsCodeClient.cs" />
+    <Compile Remove="InteractiveWorkflow\RSessionService.cs" />
+    <Compile Remove="Logging\IOutput.cs" />
   </ItemGroup>
 </Project>

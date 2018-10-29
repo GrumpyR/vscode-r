@@ -2,11 +2,9 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using LanguageServer.VsCode.Contracts;
 using Microsoft.Common.Core.Services;
 using Microsoft.Common.Core.Threading;
 using Microsoft.Languages.Core.Text;
@@ -14,14 +12,12 @@ using Microsoft.Languages.Editor.Completions;
 using Microsoft.Languages.Editor.Text;
 using Microsoft.R.Editor.Completions;
 using Microsoft.R.Editor.Document;
-using Microsoft.R.LanguageServer.Client;
 using Microsoft.R.LanguageServer.Completions;
 using Microsoft.R.LanguageServer.Extensions;
 using Microsoft.R.LanguageServer.Formatting;
 using Microsoft.R.LanguageServer.Symbols;
 using Microsoft.R.LanguageServer.Text;
 using Microsoft.R.LanguageServer.Validation;
-using TextEdit = LanguageServer.VsCode.Contracts.TextEdit;
 
 namespace Microsoft.R.LanguageServer.Documents {
     internal sealed class DocumentEntry : IDisposable {
@@ -48,19 +44,19 @@ namespace Microsoft.R.LanguageServer.Documents {
             _symbolsProvider = new DocumentSymbolsProvider();
         }
 
-        public async Task ProcessChangesAsync(ICollection<TextDocumentContentChangeEvent> contentChanges) {
+        public async Task ProcessChangesAsync(TextDocumentContentChangedEvent[] contentChanges) {
             await _services.MainThread().SwitchToAsync();
 
             foreach (var change in contentChanges) {
-                if (!change.HasRange) {
+                if (change.range == null) {
                     continue;
                 }
 
                 var position = EditorBuffer.ToStreamPosition(change.Range.Start);
-                var range = new TextRange(position, change.RangeLength);
-                if (!string.IsNullOrEmpty(change.Text)) {
+                var range = new TextRange(position, change.rangeLength);
+                if (!string.IsNullOrEmpty(change.text)) {
                     // Insert or replace
-                    if (change.RangeLength == 0) {
+                    if (change.rangeLength == 0) {
                         EditorBuffer.Insert(position, change.Text);
                     } else {
                         EditorBuffer.Replace(range, change.Text);

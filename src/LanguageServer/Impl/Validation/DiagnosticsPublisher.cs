@@ -5,7 +5,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using LanguageServer.VsCode.Contracts;
 using Microsoft.Common.Core.Services;
 using Microsoft.Common.Core.Shell;
 using Microsoft.Common.Core.Threading;
@@ -16,22 +15,20 @@ using Microsoft.R.Editor.Document;
 using Microsoft.R.Editor.Tree;
 using Microsoft.R.Editor.Validation;
 using Microsoft.R.Editor.Validation.Errors;
-using Microsoft.R.LanguageServer.Client;
 using Microsoft.R.LanguageServer.Extensions;
 using Microsoft.R.LanguageServer.Threading;
 
 namespace Microsoft.R.LanguageServer.Validation {
     internal sealed class DiagnosticsPublisher {
-        private readonly IVsCodeClient _client;
         private readonly ConcurrentQueue<IValidationError> _resultsQueue;
         private readonly IMainThreadPriority _mainThread;
         private readonly IREditorSettings _settings;
         private readonly IIdleTimeService _idleTime;
         private readonly Uri _documentUri;
         private IREditorDocument _document;
-        private List<Diagnostic> _lastDisgnostic = new List<Diagnostic>();
+        private List<Diagnostic> _lastDiagnostic = new List<Diagnostic>();
 
-        public DiagnosticsPublisher(IVsCodeClient client, IREditorDocument document, Uri documentUri, IServiceContainer services) {
+        public DiagnosticsPublisher(IREditorDocument document, Uri documentUri, IServiceContainer services) {
             _client = client;
             _document = document;
             _documentUri = documentUri;
@@ -61,10 +58,10 @@ namespace Microsoft.R.LanguageServer.Validation {
                 var range = GetRange(e);
                 if (range != null) {
                     diagnostic.Add(new Diagnostic {
-                        Message = e.Message,
-                        Severity = ToDiagnosticSeverity(e.Severity),
-                        Range = range.Value,
-                        Source = "R"
+                        message = e.Message,
+                        severity = ToDiagnosticSeverity(e.Severity),
+                        range = range.Value,
+                        source = "R"
                     });
                 }
             }

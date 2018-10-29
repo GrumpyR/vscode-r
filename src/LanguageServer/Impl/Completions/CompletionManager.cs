@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LanguageServer.VsCode.Contracts;
 using Microsoft.Common.Core.Services;
 using Microsoft.Languages.Core;
 using Microsoft.Languages.Editor.Completions;
@@ -58,11 +57,11 @@ namespace Microsoft.R.LanguageServer.Completions
 
             var items = sorted
                 .Select(c => new CompletionItem {
-                    Label = c.DisplayText,
-                    InsertText = c.InsertionText,
-                    Kind = (CompletionItemKind)c.ImageSource,
-                    Documentation = c.Description,
-                    Data = c.Data is string ? JToken.FromObject((string)c.Data) : null
+                    label = c.DisplayText,
+                    insertText = c.InsertionText,
+                    kind = (CompletionItemKind)c.ImageSource,
+                    documentation = c.Description,
+                    data = c.Data is string ? JToken.FromObject((string)c.Data) : null
                 }).ToList();
 
             return new CompletionList(items);

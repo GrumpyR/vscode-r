@@ -3,26 +3,21 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using LanguageServer.VsCode.Contracts;
 using Microsoft.Common.Core.Services;
 using Microsoft.R.Host.Client;
-using Microsoft.R.LanguageServer.Client;
 
 namespace Microsoft.R.LanguageServer.InteractiveWorkflow {
     internal sealed class Console : IConsole {
-        private readonly IServiceContainer _services;
-        private IVsCodeClient _client;
-
-        private IVsCodeClient Client => _client ?? (_client = _services.GetService<IVsCodeClient>());
+        private readonly IUIService _ui;
 
         public Console(IServiceContainer services) {
-            _services = services;
+            _ui = services.GetService<IUIService>();
         }
 
-        public void WriteError(string text) => Client.Window.LogMessage(MessageType.Error, text);
-        public void WriteErrorLine(string text) => Client.Window.LogMessage(MessageType.Error, text);
-        public void Write(string text) => Client.Window.LogMessage(MessageType.Info, text);
-        public void WriteLine(string text) => Client.Window.LogMessage(MessageType.Info, text);
+        public void WriteError(string text) => _ui.LogMessage(text, MessageType.Error);
+        public void WriteErrorLine(string text) => _ui.LogMessage(text, MessageType.Error);
+        public void Write(string text) => _ui.LogMessage(text, MessageType.Info);
+        public void WriteLine(string text) => _ui.LogMessage(text, MessageType.Info);
         public Task<bool> PromptYesNoAsync(string text, CancellationToken cancellationToken) => Task.FromResult(true);
     }
 }

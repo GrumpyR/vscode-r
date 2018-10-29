@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using LanguageServer.VsCode.Contracts;
 using Microsoft.Common.Core.Services;
 using Microsoft.Common.Core.Threading;
 using Microsoft.Languages.Core.Text;
@@ -17,7 +16,6 @@ using Microsoft.R.Editor.Document;
 using Microsoft.R.Editor.Formatting;
 using Microsoft.R.LanguageServer.Extensions;
 using Microsoft.R.LanguageServer.Text;
-using TextEdit = LanguageServer.VsCode.Contracts.TextEdit;
 
 namespace Microsoft.R.LanguageServer.Formatting {
     internal sealed class CodeFormatter {
@@ -85,8 +83,8 @@ namespace Microsoft.R.LanguageServer.Formatting {
 
             if (newTokens.Count != oldTokens.Count) {
                 return new[] { new TextEdit {
-                    NewText = after.GetText(),
-                    Range = TextRange.FromBounds(0, before.Length).ToLineRange(before)
+                    newText = after.GetText(),
+                    range = TextRange.FromBounds(0, before.Length).ToLineRange(before)
                 }};
             }
 
@@ -99,8 +97,8 @@ namespace Microsoft.R.LanguageServer.Formatting {
                 if (oldText != newText) {
                     var range = new TextRange(oldTokens[i].End, oldEnd - oldTokens[i].End);
                     edits.Add(new TextEdit {
-                        Range = range.ToLineRange(before),
-                        NewText = newText
+                        range = range.ToLineRange(before),
+                        newText = newText
                     });
 
                 }
@@ -113,8 +111,8 @@ namespace Microsoft.R.LanguageServer.Formatting {
 
             if (r.Length > 0 || !string.IsNullOrEmpty(n)) {
                 edits.Add(new TextEdit {
-                    NewText = n,
-                    Range = r.ToLineRange(before)
+                    newText = n,
+                    range = r.ToLineRange(before)
                 });
             }
 

@@ -5,10 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using LanguageServer.VsCode.Contracts;
 using Microsoft.Common.Core;
 using Microsoft.Common.Core.Services;
-using Microsoft.Common.Core.Threading;
 using Microsoft.Languages.Editor.Completions;
 using Microsoft.Languages.Editor.Text;
 using Microsoft.R.Editor;
@@ -61,17 +59,23 @@ namespace Microsoft.R.LanguageServer.Completions {
                 return null;
             }
             var sigInfos = signatures.Select(s => new SignatureInformation {
-                Label = s.Content,
-                Documentation = s.Documentation.RemoveLineBreaks(),
-                Parameters = s.Parameters.Select(p => new ParameterInformation {
-                    Label = p.Name,
-                    Documentation = p.Documentation.RemoveLineBreaks()
-                }).ToList()
-            }).ToList();
+                label = s.Content,
+                documentation = new MarkupContent {
+                    kind = "plaintext",
+                    value = s.Documentation.RemoveLineBreaks()
+                },
+                parameters = s.Parameters.Select(p => new ParameterInformation {
+                    label = p.Name,
+                    documentation = new MarkupContent {
+                        kind = "plaintext",
+                        value = p.Documentation.RemoveLineBreaks()
+                    }
+                }).ToArray()
+            }).ToArray();
 
             return new SignatureHelp {
-                Signatures = sigInfos,
-                ActiveParameter = sigInfos.Count > 0 ? ComputeActiveParameter(context, signatures.First().SignatureInfo) : 0
+                signatures = sigInfos,
+                activeParameter = sigInfos.Count > 0 ? ComputeActiveParameter(context, signatures.First().SignatureInfo) : 0
             };
         }
 
@@ -86,8 +90,11 @@ namespace Microsoft.R.LanguageServer.Completions {
                 var start = info.ApplicableToRange.GetStartPoint(snapshot);
                 var end = info.ApplicableToRange.GetEndPoint(snapshot);
                 return new Hover {
-                    Contents = content,
-                    Range = buffer.ToLineRange(start, end)
+                    contents = new MarkupContent {
+                        kind = "plaintext",
+                        value = content
+                    },
+                    range = buffer.ToLineRange(start, end)
                 };
             }
             return new Hover();

@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using LanguageServer.VsCode.Contracts;
 using Microsoft.Languages.Editor.Text;
 using Microsoft.R.Core.AST;
 using Microsoft.R.Core.AST.Functions;
